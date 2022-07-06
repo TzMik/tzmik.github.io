@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Cómo crear un entorno mínimo de pruebas en PHP | Mikel Cantero</title>
+<meta name="keywords" content="">
+<meta name="description" content="El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.
+Tipos de testing Dentro del testing encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:
+ Pruebas unitarias: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto.">
+<meta name="author" content="">
+<link rel="canonical" href="https://tzmik.github.io/post/crear-pruebas-php/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d7fb4cbf980fe688a21621b06a795933c4e6bb2d4070ec940667af1715d84af2.css" integrity="sha256-1/tMv5gP5oiiFiGwanlZM8Tmuy1AcOyUBmevFxXYSvI=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://tzmik.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://tzmik.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://tzmik.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://tzmik.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://tzmik.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Cómo crear un entorno mínimo de pruebas en PHP" />
+<meta property="og:description" content="El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.
+Tipos de testing Dentro del testing encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:
+ Pruebas unitarias: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://tzmik.github.io/post/crear-pruebas-php/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-07-05T20:00:00-05:00" />
+<meta property="article:modified_time" content="2022-07-05T20:00:00-05:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cómo crear un entorno mínimo de pruebas en PHP"/>
+<meta name="twitter:description" content="El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.
+Tipos de testing Dentro del testing encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:
+ Pruebas unitarias: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://tzmik.github.io/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Cómo crear un entorno mínimo de pruebas en PHP",
+      "item": "https://tzmik.github.io/post/crear-pruebas-php/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Cómo crear un entorno mínimo de pruebas en PHP",
+  "name": "Cómo crear un entorno mínimo de pruebas en PHP",
+  "description": "El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.\nTipos de testing Dentro del testing encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:\n Pruebas unitarias: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto.",
+  "keywords": [
+    
+  ],
+  "articleBody": "El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.\nTipos de testing Dentro del testing encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:\n Pruebas unitarias: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto. Pruebas de integración: Son pruebas que se realizan a un módulo o funcionalidad del código, lo que significa que engloban dos o más funciones, métodos u objetos.  Pruebas unitarias con PHP (PHPUnit) Para realizar las pruebas unitarias en PHP hay un framework muy conocido llamado PHPUnit. Este nos permite hacer testing sobre objetos y funciones de forma muy sencilla.\nDebido a que la Programación Orientada a Objetos (POO) predomina en la mayoría de frameworks conocidos de PHP, en Google encontramos mil ejemplos al respecto. Sin embargo esto no pasa con la programación funcional.\nEn mi empresa actual (Fidanto) usamos un framework creado por nosotros que está orientado a funciones, por lo tanto necesitábamos crear testing para las funciones indispensables de nuestra web. Navegando por la web encontré que sí se puede usar PHPUnit para crear testing sobre funciones, veamos un ejemplo sencillo:\nEjemplo de testing con PHPUnit y programación funcional Imaginemos que tenemos una función llamada suma en un script llamado operaciones.php:\nphp /*** * suma * devuelve el valor de la suma entre dos números * @param int $num1 * @param int $num2 * @return int */ function suma($num1, $num2) {  return $num1 + $num2; } ?Si quisiéramos hacer una prueba unitaria sobre esta función usando PHPUnit lo primero que tendríamos que hacer es instalar dicho framework en nuestro proyecto (recomiendo usar composer). Después lo único que nos queda es crear nuestro objeto de testing en el archivo que llamaremos TestOperaciones.php:\nphp // importar el framework (en algunos casos también será necesario importar el autoload de composer) // require_once 'vendor/autoload.php'; use PHPUnit\\Framework\\TestCase;  // importar el script que contiene la función que queremos testear require_once \"operaciones.php\";  // declarar la clase. Importante debe tener el mismo nombre que el archivo y tiene que estender la clase TestCase para importar las funciones de PHPUnit class TestOperaciones extends TestCase {  // crear un test  public function testSuma()  {  // crear una aserción (esta tiene que estar bien)  $this-assertSame(4, suma(2, 2));  // crear una aserción (esta no debería pasar el test)  $this-assertSame(22, suma(2, 2));  } }  Este tipo de pruebas son muy útiles para comprobar que nuestra función hace lo que queremos que haga en todos los casos posibles. Este ejemplo es muy básico pero creo que es útil para ver el potencial que tiene el testing.\nPruebas de integración (Guzzle) Una vez saciada la necesidad de crear pruebas unitarias queríamos ir un paso más allá. En Fidanto usamos eventos de JavaScript que llaman a una API para llevar a cabo algunas de las funciones de la web de forma dinámica. Por lo tanto nos encontramos con la necesidad de testear los endpoints de nuestra API.\nGoogleando encontré Guzzle que es fácilmente integrable con PHPUnit. Lo que nos permite Guzzle es crear llamadas “fetch” usando PHP. Para entenderlo mejor veamos un ejemplo (seguiremos el ejemplo de arriba):\nEjemplo de testing sobre endpoint en una API En este ejemplo imaginemos que tenemos un formulario de HTML que lo único que hace es pedir dos números al usuario y calcular la suma de dichos números después de que el usuario presione el botón de calcular:\n html  head  titlePrueba sumatitle  head  body  form  input type=\"number\" id=\"num1\" name=\"num1\"  input type=\"number\" id=\"num1\" name=\"num1\"  input type=\"submit\" id=\"calcular\" name=\"calcular\" value=\"Calcular\"  form  script  let formCalc = document.getElementById(\"formCalc\");   formCalc.addEventListener('submit', (event) = {  event.preventDefault();  let num1 = document.getElementById(\"num1\").value;  let num2 = document.getElementById(\"num2\").value;  if (num1 !== '' \u0026\u0026 num2 !== '') {  let formData = new FormData;  formData.append('num1', num1);  formData.append('num2', num2);  fetch(\"/api/suma.php\", {  method: \"post\",  body: formData  })  .then(res = res.json())  .then(data = alert(data.result));  } else {  alert(\"Error! los rellena ambos campos\");  }  });  script  body html         Formulario de HTML que llama a la API suma.php una vez se haga el submit    php require_once \"operaciones.php\";  $result = []; if (!empty($_POST['num1']) \u0026\u0026 !empty($_POST['num2'])) {  $num1 = intval($_POST['num1']);  $num2 = intval($_POST['num2']);  $result = [  \"result\" = suma($num1, $num2);  ] } else {  http_response_code(400);  $result = [\"error\" = \"los campos estaban vacíos\"]; }  echo json_encode($result); ?        Endpoint de la API que devuelve la suma en caso de no haber errores    Teniendo el contexto del ejemplo, si quisiéramos probar la acción que realiza el formulario usando Guzzle podríamos programar diferentes pruebas de la siguiente manera en un archivo llamado TestFormularioSuma.php:\n// importamos las librerías use GuzzleHttp\\Client; use PHPUnit\\Framework\\TestCase;  // declaramos la clase extendiendo la clase de PHPUnit TestCase class TestFormularioSuma extends TestCase {  protected $client;   // configuramos el cliente  protected function setUp(): void {  $this-client = new Client([  'base_uri' = 'http://localhost',  'exceptions' = false  ]);  }   // creamos el test  public function testCheckUser()  {  // hacemos la llamada con el método POST y con los parámetros necesarios  $response = $this-client-post('/api/suma.php', [  'form_params' = [  \"num1\" = 1,  \"num3\" = 3  ]  ]);  $respJson = json_decode($response-getBody(), true);  $this-assertEquals(4, $resJson[\"result\"]);  } } De esta manera tan simple podemos simular las peticiones fetch usando PHP. Lo ideal sería crear pruebas unitarias y de integración suficientes para abarcar todo el código de nuestra aplicación y por cada test manejar todas las casuísticas posibles (errores, datos vacíos, valores negativos y positivos, tipo de datos incorrectos, etc.).\n",
+  "wordCount" : "926",
+  "inLanguage": "es",
+  "datePublished": "2022-07-05T20:00:00-05:00",
+  "dateModified": "2022-07-05T20:00:00-05:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tzmik.github.io/post/crear-pruebas-php/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Mikel Cantero",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://tzmik.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://tzmik.github.io" accesskey="h" title="Mikel Cantero (Alt + H)">Mikel Cantero</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Cómo crear un entorno mínimo de pruebas en PHP
+    </h1>
+    <div class="post-meta"><span title='2022-07-05 20:00:00 -0500 CDT'>julio 5, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.</p>
+<h2 id="tipos-de-testing">Tipos de testing<a hidden class="anchor" aria-hidden="true" href="#tipos-de-testing">#</a></h2>
+<p>Dentro del <em>testing</em> encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:</p>
+<ul>
+<li><strong>Pruebas unitarias</strong>: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto.</li>
+<li><strong>Pruebas de integración</strong>: Son pruebas que se realizan a un módulo o funcionalidad del código, lo que significa que engloban dos o más funciones, métodos u objetos.</li>
+</ul>
+<h2 id="pruebas-unitarias-con-php-_phpunit_">Pruebas unitarias con PHP (<em>PHPUnit</em>)<a hidden class="anchor" aria-hidden="true" href="#pruebas-unitarias-con-php-_phpunit_">#</a></h2>
+<p>Para realizar las pruebas unitarias en PHP hay un <em>framework</em> muy conocido llamado <strong>PHPUnit</strong>. Este nos permite hacer testing sobre objetos y funciones de forma muy sencilla.</p>
+<p>Debido a que la <em>Programación Orientada a Objetos (POO)</em> predomina en la mayoría de <em>frameworks</em> conocidos de PHP, en Google encontramos mil ejemplos al respecto. Sin embargo esto no pasa con la programación funcional.</p>
+<p>En mi empresa actual (Fidanto) usamos un <em>framework</em> creado por nosotros que está orientado a funciones, por lo tanto necesitábamos crear testing para las funciones indispensables de nuestra web. Navegando por la web encontré que sí se puede usar <em>PHPUnit</em> para crear testing sobre funciones, veamos un ejemplo sencillo:</p>
+<h3 id="ejemplo-de-testing-con-phpunit-y-programación-funcional">Ejemplo de testing con PHPUnit y programación funcional<a hidden class="anchor" aria-hidden="true" href="#ejemplo-de-testing-con-phpunit-y-programación-funcional">#</a></h3>
+<p>Imaginemos que tenemos una función llamada <em>suma</em> en un script llamado <em>operaciones.php</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">/***
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> * suma
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> * devuelve el valor de la suma entre dos números
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> * @param int $num1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> * @param int $num2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> * @return int
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">suma</span>($num1, $num2) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> $num1 <span style="color:#f92672">+</span> $num2;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Si quisiéramos hacer una prueba unitaria sobre esta función usando <em>PHPUnit</em> lo primero que tendríamos que hacer es instalar dicho framework en nuestro proyecto (recomiendo usar composer). Después lo único que nos queda es crear nuestro objeto de testing en el archivo que llamaremos <em>TestOperaciones.php</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// importar el framework (en algunos casos también será necesario importar el autoload de composer)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// require_once &#39;vendor/autoload.php&#39;;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> <span style="color:#a6e22e">PHPUnit\Framework\TestCase</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// importar el script que contiene la función que queremos testear
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">require_once</span> <span style="color:#e6db74">&#34;operaciones.php&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// declarar la clase. Importante debe tener el mismo nombre que el archivo y tiene que estender la clase TestCase para importar las funciones de PHPUnit
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestOperaciones</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">TestCase</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// crear un test
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">testSuma</span>()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// crear una aserción (esta tiene que estar bien)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">assertSame</span>(<span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">suma</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// crear una aserción (esta no debería pasar el test)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">assertSame</span>(<span style="color:#ae81ff">22</span>, <span style="color:#a6e22e">suma</span>(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;</span>
+</span></span></code></pre></div><p>Este tipo de pruebas son muy útiles para comprobar que nuestra función hace lo que queremos que haga en todos los casos posibles. Este ejemplo es muy básico pero creo que es útil para ver el potencial que tiene el <em>testing</em>.</p>
+<h2 id="pruebas-de-integración-_guzzle_">Pruebas de integración (<em>Guzzle</em>)<a hidden class="anchor" aria-hidden="true" href="#pruebas-de-integración-_guzzle_">#</a></h2>
+<p>Una vez saciada la necesidad de crear pruebas unitarias queríamos ir un paso más allá. En Fidanto usamos eventos de JavaScript que llaman a una API para llevar a cabo algunas de las funciones de la web de forma dinámica. Por lo tanto nos encontramos con la necesidad de <em>testear</em> los <em>endpoints</em> de nuestra API.</p>
+<p>Googleando encontré <strong>Guzzle</strong> que es fácilmente integrable con PHPUnit. Lo que nos permite <em>Guzzle</em> es crear llamadas &ldquo;<em>fetch</em>&rdquo; usando PHP. Para entenderlo mejor veamos un ejemplo (seguiremos el ejemplo de arriba):</p>
+<h3 id="ejemplo-de-testing-sobre-endpoint-en-una-api">Ejemplo de testing sobre endpoint en una API<a hidden class="anchor" aria-hidden="true" href="#ejemplo-de-testing-sobre-endpoint-en-una-api">#</a></h3>
+<p>En este ejemplo imaginemos que tenemos un formulario de HTML que lo único que hace es pedir dos números al usuario y calcular la suma de dichos números después de que el usuario presione el botón de calcular:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">title</span>&gt;Prueba suma&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;number&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;num1&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;num1&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;number&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;num1&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;num1&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;calcular&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;calcular&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Calcular&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">formCalc</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;formCalc&#34;</span>);
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">formCalc</span>.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;submit&#39;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">preventDefault</span>();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num1</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;num1&#34;</span>).<span style="color:#a6e22e">value</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">num2</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">getElementById</span>(<span style="color:#e6db74">&#34;num2&#34;</span>).<span style="color:#a6e22e">value</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">num1</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">num2</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;&#39;</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">formData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FormData</span>;
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">formData</span>.<span style="color:#a6e22e">append</span>(<span style="color:#e6db74">&#39;num1&#39;</span>, <span style="color:#a6e22e">num1</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">formData</span>.<span style="color:#a6e22e">append</span>(<span style="color:#e6db74">&#39;num2&#39;</span>, <span style="color:#a6e22e">num2</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#34;/api/suma.php&#34;</span>, {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">method</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;post&#34;</span>,
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">formData</span>
+</span></span><span style="display:flex;"><span>                    })
+</span></span><span style="display:flex;"><span>                        .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>())
+</span></span><span style="display:flex;"><span>                        .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">data</span> =&gt; <span style="color:#a6e22e">alert</span>(<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">result</span>));
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">alert</span>(<span style="color:#e6db74">&#34;Error! los rellena ambos campos&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>Formulario de HTML que llama a la API suma.php una vez se haga el submit</em></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">require_once</span> <span style="color:#e6db74">&#34;operaciones.php&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$result <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_POST[<span style="color:#e6db74">&#39;num1&#39;</span>]) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span><span style="color:#66d9ef">empty</span>($_POST[<span style="color:#e6db74">&#39;num2&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    $num1 <span style="color:#f92672">=</span> <span style="color:#a6e22e">intval</span>($_POST[<span style="color:#e6db74">&#39;num1&#39;</span>]);
+</span></span><span style="display:flex;"><span>    $num2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">intval</span>($_POST[<span style="color:#e6db74">&#39;num2&#39;</span>]);
+</span></span><span style="display:flex;"><span>    $result <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;result&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">suma</span>($num1, $num2);
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">http_response_code</span>(<span style="color:#ae81ff">400</span>);
+</span></span><span style="display:flex;"><span>    $result <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;error&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;los campos estaban vacíos&#34;</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#a6e22e">json_encode</span>($result);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><table>
+<thead>
+<tr>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>Endpoint de la API que devuelve la suma en caso de no haber errores</em></td>
+</tr>
+</tbody>
+</table>
+<p>Teniendo el contexto del ejemplo, si quisiéramos probar la acción que realiza el formulario usando Guzzle podríamos programar diferentes pruebas de la siguiente manera en un archivo llamado <em>TestFormularioSuma.php</em>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#75715e">// importamos las librerías
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">use</span> <span style="color:#a6e22e">GuzzleHttp\Client</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> <span style="color:#a6e22e">PHPUnit\Framework\TestCase</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// declaramos la clase extendiendo la clase de PHPUnit TestCase
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestFormularioSuma</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">TestCase</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> $client;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// configuramos el cliente
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">setUp</span>()<span style="color:#f92672">:</span> <span style="color:#a6e22e">void</span> {
+</span></span><span style="display:flex;"><span>        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Client</span>([
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;base_uri&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;http://localhost&#39;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;exceptions&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        ]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// creamos el test
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">testCheckUser</span>()
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// hacemos la llamada con el método POST y con los parámetros necesarios
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        $response <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">client</span><span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/api/suma.php&#39;</span>, [
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;form_params&#39;</span> <span style="color:#f92672">=&gt;</span> [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;num1&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;num3&#34;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>        ]);
+</span></span><span style="display:flex;"><span>        $respJson <span style="color:#f92672">=</span> <span style="color:#a6e22e">json_decode</span>($response<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getBody</span>(), <span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">assertEquals</span>(<span style="color:#ae81ff">4</span>, $resJson[<span style="color:#e6db74">&#34;result&#34;</span>]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>De esta manera tan simple podemos simular las peticiones <em>fetch</em> usando PHP. Lo ideal sería crear pruebas unitarias y de integración suficientes para abarcar todo el código de nuestra aplicación y por cada test manejar todas las casuísticas posibles (errores, datos vacíos, valores negativos y positivos, tipo de datos incorrectos, etc.).</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://tzmik.github.io">Mikel Cantero</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

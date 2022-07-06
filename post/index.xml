@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Posts on Mikel Cantero</title>
+    <link>https://tzmik.github.io/post/</link>
+    <description>Recent content in Posts on Mikel Cantero</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 05 Jul 2022 20:00:00 -0500</lastBuildDate><atom:link href="https://tzmik.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cómo crear un entorno mínimo de pruebas en PHP</title>
+      <link>https://tzmik.github.io/post/crear-pruebas-php/</link>
+      <pubDate>Tue, 05 Jul 2022 20:00:00 -0500</pubDate>
+      
+      <guid>https://tzmik.github.io/post/crear-pruebas-php/</guid>
+      <description>El testing es indispensable si queremos asegurarnos de tener una mínima calidad a la hora de desarrollar. La mayor ventaja que tiene programar pruebas es asegurarnos de que las partes clave de nuestro sitio web o aplicación estén funcionando bien en todo momento.
+Tipos de testing Dentro del testing encontramos varios tipos. En este artículo me gustaría mencionar dos de ellas:
+ Pruebas unitarias: Son pruebas que se realizan a una unidad o componente directamente, normalmente a una función, método u objeto.</description>
+    </item>
+    
+  </channel>
+</rss>
